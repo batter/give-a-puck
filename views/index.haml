@@ -1,1 +1,6 @@
-%h1 Hello World
+- if @events.any?
+  %h3 Events
+  - @events.each do |event|
+    = event.title
+- else
+  %h3 Welcome

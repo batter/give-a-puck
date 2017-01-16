@@ -2,6 +2,8 @@ require 'roda'
 require 'rack/indifferent'
 require 'haml'
 
+require File.expand_path('../models/all', __FILE__)
+
 class App < Roda
   plugin :hooks
   plugin :render, engine: 'haml'
@@ -22,6 +24,9 @@ class App < Roda
     r.assets unless ENV['RACK_ENV'] == 'production'
 
     # GET /
-    r.root { view :index }
+    r.root do
+      @events = Event.all
+      view :index
+    end
   end
 end
