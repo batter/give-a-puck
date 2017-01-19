@@ -15,5 +15,9 @@ body {
   }
   #wrapper {
     margin: 8px;
+
+    input[type=text] {
+      width: 200px;
+    }
   }
 }

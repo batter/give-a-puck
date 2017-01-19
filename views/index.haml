@@ -1,6 +1,6 @@
-- if @events.any?
+#events
   %h3 Events
-  - @events.each do |event|
-    = event.title
-- else
-  %h3 Welcome
+  %a{href: '/events/new'} New
+  %ul
+    - @events.each do |event|
+      %li= event.title

@@ -7,7 +7,7 @@ development:
   <<: *defaults
   clients:
     default:
-      database: tic-tac-toe
+      database: give-a-puck
       hosts:
         - localhost:27017
 

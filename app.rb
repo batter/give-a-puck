@@ -8,6 +8,7 @@ class App < Roda
   plugin :hooks
   plugin :render, engine: 'haml'
   plugin :json
+  plugin :flash
   plugin :assets, css: 'application.css', js: 'application.js',
     js_compressor: :uglifier
 
@@ -27,6 +28,23 @@ class App < Roda
     r.root do
       @events = Event.all
       view :index
+    end
+
+    r.on :events do
+      r.is do
+        r.post do
+          @event = Event.new(params[:event])
+          if @event.save
+            flash['success'] = 'Event Created'
+          else
+            view 'events/new'
+          end
+        end
+      end
+
+      r.get :new do
+        view 'events/new'
+      end
     end
   end
 end
