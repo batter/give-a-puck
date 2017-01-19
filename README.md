@@ -1,4 +1,4 @@
-# Simple Roda Boilerplate
+# Give A Puck
 
 To setup your local environment to run this, ensure you have Ruby 2+ installed,
 then install dependencies by running:
