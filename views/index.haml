@@ -1,6 +1,17 @@
 #events
   %h3 Events
   %a{href: '/events/new'} New
-  %ul
-    - @events.each do |event|
-      %li= event.title
+  %p
+  %table
+    %thead
+      %th Name
+      %th Live?
+      %th
+    %tbody
+      - @events.each do |event|
+        %tr[event]
+          %td
+            %a{href: "events/#{event.id}"}= event.title
+          %td= event.is_live? ? 'Yes' : 'No'
+          %td
+            %a.make_live{href: '#'} Make Live

@@ -1,0 +1,25 @@
+#event
+  %h3= @event.title
+  .links.prepend-top
+    %a{href: '#'} Scoreboard
+  .players.prepend-top
+    %a{href: "/events/#{@event.id}/players/new"} New Player
+    - if @event.players.any?
+      %table.list
+        %thead
+          %th W
+          %th L
+          %th Win PCT
+          %th
+          %th
+        %tbody
+          - @event.players.each do |player|
+            %tr
+              %td= player.name
+              %td= player.games_won_count
+              %td= player.games_lost_count
+              %td= player.win_pct
+              %td
+                %a{href: '#'} Edit
+              %td
+                %a{href: '#'} Suspend

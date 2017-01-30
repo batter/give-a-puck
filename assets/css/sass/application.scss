@@ -21,3 +21,76 @@ body {
     }
   }
 }
+
+/* Nice to have for putting space above or below objects */
+.prepend-top-sm   { margin-top: 0.75em; }
+.append-bottom-sm { margin-bottom: 0.75em; }
+.prepend-top   { margin-top: 1.5em; }
+.append-bottom { margin-bottom: 1.5em; }
+.prepend-left  { margin-left: 1.5em; }
+.append-right  { margin-right: 1.5em; }
+
+
+/* --- Form scaffolding --- */
+div {
+  &.field, &.actions {
+    margin-bottom: 10px;
+  }
+}
+
+#notice {
+  color: green;
+}
+
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+//  display: table;
+}
+
+#error_explanation {
+  color: black;
+  width: 450px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+  h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    margin-bottom: 0px;
+    background-color: #c00;
+    color: #fff;
+  }
+  ul li {
+    font-size: 12px;
+    list-style: square;
+  }
+}
+
+/* For displaying flash notifications */
+#flash_notifications,
+.flash_notifications {
+  padding: 20px 30px 0;
+
+  .error,
+  .notice,
+  .success,
+  .alert,
+  .info	{ padding: 0.8em !important; margin-bottom: 1em; border: 2px solid #DDD; }
+
+  .error      { background: #fbe3e4; color: #8a1f11; border-color: #fbc2c4 !important; }
+  .notice,
+  .alert      { background: #fff6bf; color: #514721; border-color: #ffd324 !important; }
+  .success    { background: #e6efc2; color: #264409; border-color: #c6d880 !important; }
+  .info       { background: #d5edf8; color: #205791; border-color: #92cae4 !important; }
+  .error a    { color: #8a1f11; }
+  .notice a,
+  .alert a    { color: #514721; }
+  .success a  { color: #264409; }
+  .info a     { color: #205791; }
+}
