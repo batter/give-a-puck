@@ -13,5 +13,6 @@ gem 'thin', '~> 1.7', require: false # Use Thin as the webserver
 gem 'rake', '> 10.0'
 
 group :development do
-  gem 'shotgun', '~> 0.9.2'
+  gem 'shotgun', '~> 0.9.2', require: false
+  gem 'pry-nav', '~> 0.2'
 end
