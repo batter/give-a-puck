@@ -7,13 +7,13 @@ end
 
 desc 'Open an irb session preloaded with this library'
 task :console do
-  sh 'irb -I lib -r ./app.rb'
+  sh 'irb -I lib -r ./config/environment.rb'
 end
 
 namespace :assets do
   desc "Precompile the assets"
   task :precompile do
-    require './app'
+    require File.expand_path('../config/environment', __FILE__)
     App.compile_assets
   end
 
