@@ -1,7 +1,10 @@
 %h4 New Player
 %form{action: "/events/#{@event.id}/players", method: 'post', 'accept-charset' => 'UTF-8'}
-  %label Name
-  %input#event_title{type: 'text', name: 'player[name]'}
-  %br
-  %br
-  %input{name: 'commit', type: 'submit', value: 'Create Player'}
+  .field
+    %label Name
+    %input#player_name{type: 'text', name: 'player[name]'}
+  .field.prepend-top
+    %label Email
+    %input#player_email{type: 'text', name: 'player[email]'}
+  .field.prepend-top
+    %input{name: 'commit', type: 'submit', value: 'Create Player'}

@@ -1,0 +1,10 @@
+%h4 Edit Player
+%form{action: "/events/#{@event.id}/players/#{@player.id}", method: 'post', 'accept-charset' => 'UTF-8'}
+  .field
+    %label Name
+    %input#player_name{type: 'text', name: 'player[name]', value: @player.name}
+  .field.prepend-top
+    %label Email
+    %input#player_email{type: 'text', name: 'player[email]', value: @player.email}
+  .field.prepend-top
+    %input{name: 'commit', type: 'submit', value: 'Update Player'}

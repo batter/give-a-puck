@@ -66,6 +66,7 @@ class App < Roda
 
         r.is do
           r.get do
+            @players = @event.players.sort_by { |p| p.win_pct }
             view 'events/show'
           end
         end
@@ -79,7 +80,27 @@ class App < Roda
                 r.redirect "/events/#{@event.id}"
               else
                 flash.now['error'] = @player.errors.full_messages.join(', ')
-                view 'players/new'
+                view 'players/edit'
+              end
+            end
+          end
+
+          r.on ':id' do |player_id|
+            @player = @event.players.find(player_id)
+
+            r.is do
+              r.get do
+                view 'players/edit'
+              end
+
+              r.post do
+                if @player.update_attributes(params[:player])
+                  flash['success'] = "Player #{@player.name} Updated"
+                  r.redirect "/events/#{@event.id}"
+                else
+                  flash.now['error'] = @player.errors.full_messages.join(', ')
+                  view 'players/edit'
+                end
               end
             end
           end

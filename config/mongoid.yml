@@ -11,6 +11,14 @@ development:
       hosts:
         - localhost:27017
 
+test:
+  <<: *defaults
+  clients:
+    default:
+      database: give-a-puck-test
+      hosts:
+        - localhost:27017
+
 # production:
 #   <<: *defaults
 #   clients:
@@ -18,3 +26,7 @@ development:
 #       database: <%= ENV['MONGO_DATABASE'] %>
 #       hosts:
 #         - <%= "#{ENV['MONGO_HOST']}:#{ENV['MONGO_PORT']}" %>
+
+production:
+  <<: *defaults
+  uri: <%= ENV['MONGOHQ_URL'] %>

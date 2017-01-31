@@ -4,9 +4,11 @@
     %a{href: '#'} Scoreboard
   .players.prepend-top
     %a{href: "/events/#{@event.id}/players/new"} New Player
-    - if @event.players.any?
+    .append-bottom
+    - if @players.any?
       %table.list
         %thead
+          %th Name
           %th W
           %th L
           %th Win PCT
@@ -16,10 +18,10 @@
           - @event.players.each do |player|
             %tr
               %td= player.name
-              %td= player.games_won_count
-              %td= player.games_lost_count
-              %td= player.win_pct
+              %td.text-center= player.games_won_count
+              %td.text-center= player.games_lost_count
+              %td.text-center= player.win_pct
               %td
-                %a{href: '#'} Edit
+                %a{href: "/events/#{@event.id}/players/#{player.id}"} Edit
               %td
                 %a{href: '#'} Suspend
