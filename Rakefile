@@ -17,8 +17,12 @@ namespace :assets do
     App.compile_assets
   end
 
+  desc "Clean out old assets"
   task :clean do
     system 'rm public/assets/*.css'
     system 'rm public/assets/*js'
   end
+
+  desc "Cleans assets dir then precompiles latest assets"
+  task precompile_for_deploy: [:clean, :precompile]
 end
