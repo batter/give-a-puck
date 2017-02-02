@@ -4,10 +4,26 @@ class Event
 
   field :title
   field :is_live, type: Boolean, default: false
+  field :on_deck_player_ids, type: Array
 
   has_many :players, inverse_of: :event
   has_many :games, inverse_of: :event
 
   validates_presence_of :title
   validates_uniqueness_of :title
+
+  def create_next_game!
+    game = games.create!(players: Player.find(on_deck_player_ids))
+    self.assign_next_on_deck!
+    game
+  end
+
+  def assign_next_on_deck!
+    update!(on_deck_player_ids: next_matching_players.pluck(:id))
+  end
+
+  # generate a match from the player pool
+  def next_matching_players
+    players(true).next_up
+  end
 end

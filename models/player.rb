@@ -12,6 +12,14 @@ class Player
   validates_presence_of :event, :name
   validates_uniqueness_of :name, scope: :event
 
+  scope :by_least_games_played, -> { order_by([['games.count', :asc]]) }
+
+  # return next players eligible to play based on players that have played least amount of games thus far
+  def self.next_up(number = 2)
+    players = by_least_games_played.group_by { |p| p.games.size }.values.first
+    players.to_a.sample(number)
+  end
+
   def games_won_count
     won_games.size
   end
