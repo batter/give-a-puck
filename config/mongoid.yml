@@ -1,10 +1,4 @@
-defaults: &defaults
-  host: localhost
-  autocreate_indexes: true
-  # logger: false # Will turn logging off in Mongoid >= 2.2.0
-
 development:
-  <<: *defaults
   clients:
     default:
       database: give-a-puck
@@ -12,21 +6,22 @@ development:
         - localhost:27017
 
 test:
-  <<: *defaults
   clients:
     default:
       database: give-a-puck-test
       hosts:
         - localhost:27017
 
-# production:
-#   <<: *defaults
-#   clients:
-#     default:
-#       database: <%= ENV['MONGO_DATABASE'] %>
-#       hosts:
-#         - <%= "#{ENV['MONGO_HOST']}:#{ENV['MONGO_PORT']}" %>
-
 production:
-  <<: *defaults
-  uri: <%= ENV['MONGOHQ_URL'] %>
+  clients:
+    default:
+      uri: <%= ENV['MONGODB_URI'] %>
+
+      options:
+        # The timeout to wait to execute operations on a socket before raising an error.
+        # (default: 5)
+        socket_timeout: 10
+
+        # Set this to ensure that your writes are a round-trip operation
+        # and are confirmed by the system. Default (false).
+        safe: true
