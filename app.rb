@@ -30,7 +30,6 @@ class App < Roda
 
   # before hook runs before every request execution
   before do
-    @payload = JSON.parse(request.env['rack.input'].read) rescue nil
     response.headers['Cache-Control'] = 'no-cache' unless env.production?
   end
 
