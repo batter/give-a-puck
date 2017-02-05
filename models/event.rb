@@ -12,6 +12,11 @@ class Event
   validates_presence_of :title
   validates_uniqueness_of :title
 
+  def make_live!
+    self.class.where(is_live: true).update_all(is_live: false)
+    self.update_attribute(:is_live, true)
+  end
+
   def create_next_game!
     game = games.create!(players: Player.find(on_deck_player_ids))
     self.assign_next_on_deck!

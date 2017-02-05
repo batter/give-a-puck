@@ -13,7 +13,7 @@ class App < Roda
   plugin :flash
   plugin :indifferent_params
   plugin :all_verbs
-  plugin :assets, css: 'application.css', js: 'application.js',
+  plugin :assets, css: 'application.css', js: ['application.js', 'jquery_ujs.js'],
     js_compressor: :uglifier
 
   def self.root
@@ -69,6 +69,11 @@ class App < Roda
             @players = @event.players.sort_by { |p| p.win_pct }
             view 'events/show'
           end
+        end
+
+        r.post 'make_live' do
+          @event.make_live!
+          r.redirect "/events/#{@event.id}"
         end
 
         r.on 'players' do

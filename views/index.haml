@@ -11,7 +11,8 @@
       - @events.each do |event|
         %tr[event]
           %td
-            %a{href: "events/#{event.id}"}= event.title
+            %a{href: "/events/#{event.id}"}= event.title
           %td= event.is_live? ? 'Yes' : 'No'
           %td
-            %a.make_live{href: '#'} Make Live
+            - unless event.is_live?
+              %a.make_live{href: "/events/#{event.id}/make_live", data: { method: 'post', confirm: 'Are you sure?' }} Make Live
