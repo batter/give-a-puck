@@ -38,12 +38,21 @@ class App < Roda
 
     # GET /
     r.root do
-      @events = Event.all
-      view :index
+      if @event = Event.where(is_live: true).first
+        view '/events/show'
+      else
+        flash[:notice] = 'There is not currently a live event'
+        r.redirect '/events'
+      end
     end
 
     r.on 'events' do
       r.is do
+        r.get do
+          @events = Event.all
+          view 'events/index'
+        end
+
         r.post do
           @event = Event.new(params[:event])
           if @event.save

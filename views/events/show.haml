@@ -1,3 +1,5 @@
+- players ||= @players || @event.players
+
 #event
   %h3= @event.title
   .links.prepend-top
@@ -5,7 +7,7 @@
   .players.prepend-top
     %a{href: "/events/#{@event.id}/players/new"} New Player
     .append-bottom
-    - if @players.any?
+    - if players.any?
       %table.list
         %thead
           %th Name
