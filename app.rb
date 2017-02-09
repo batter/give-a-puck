@@ -178,6 +178,11 @@ class App < Roda
                 end
               end
             end
+
+            r.post 'toggle_active_state' do
+              @player.update_attribute(:active, !@player.active)
+              r.redirect "/events/#{@event.id}"
+            end
           end
         end
       end

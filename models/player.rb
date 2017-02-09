@@ -4,6 +4,7 @@ class Player
 
   field :name
   field :email
+  field :active, type: Boolean, default: true
 
   belongs_to :event, inverse_of: :players
   has_and_belongs_to_many :games, inverse_of: :players
@@ -12,13 +13,16 @@ class Player
   validates_presence_of :event, :name
   validates_uniqueness_of :name, scope: :event
 
+  scope :active,   -> { where(active: true) }
+  scope :inactive, -> { where(active: false) }
+
   def self.by_least_games_played
     all.to_a.sort_by { |p| p.games.size }
   end
 
   # return next players eligible to play based on players that have played least amount of games thus far
   def self.next_up(number = 2, except_player_id = nil)
-    players = by_least_games_played
+    players = active.by_least_games_played
     players.reject! { |p| p.id.to_s == except_player_id } if except_player_id
     return players if players.size <= number
 

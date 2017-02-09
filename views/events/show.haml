@@ -25,4 +25,5 @@
               %td
                 %a{href: "/events/#{@event.id}/players/#{player.id}"} Edit
               %td
-                %a{href: '#'} Suspend
+                %a{href: "/events/#{@event.id}/players/#{player.id}/toggle_active_state", data: { method: :post }}
+                  = player.active? ? "Suspend" : "Reactivate"
