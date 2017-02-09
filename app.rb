@@ -91,6 +91,7 @@ class App < Roda
         end
 
         r.get 'live_games' do
+          @event.assign_next_on_deck! unless @event.on_deck_player_ids.present?
           @proposed_game = @event.games.new(players: Player.find(@event.on_deck_player_ids))
           @current_games = Game.unscored.order_by(created_at: :asc)
           view 'events/live_games'
