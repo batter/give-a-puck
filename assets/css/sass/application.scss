@@ -29,6 +29,26 @@ body {
   a { color: red; }
 }
 
+input[type=submit],
+a.cancel-link {
+  background:red;
+  border: 0;
+  border-radius: 4px;
+  color: black;
+  display: inline-block;
+	font-size: 1em;
+	background-color: yellow;
+  padding: 1em;
+  text-decoration: none;
+}
+
+.cancel-link {
+  margin-left: 20px;
+  position: relative;
+  top: -1px;
+}
+
+
 // -- start scoreboard styling --
 #live_games {
   #next_game_wrapper {
@@ -36,6 +56,7 @@ body {
 
     .create-game a {
       background: red;
+      border-radius: 4px;
     	color: white;
     	padding: .4em 2.5em;
     	display: inline-block;
@@ -140,7 +161,7 @@ table.list tr{
   td {
     font-size: 120%;
 
-    &:first-of-type { width: 4%; }
+    &.slim { width: 4%; }
     &:nth-of-type(6) { width:10%; }
     &:last-of-type { width:12%; }
 
@@ -190,8 +211,8 @@ table.list a{font-size:70%;background:#0A3E89; display:block; padding:.7em 0;wid
 
 /* --- Form scaffolding --- */
 div {
-  &.field, &.actions {
-    margin-bottom: 10px;
+  &.field {
+    margin-top: 12px;
   }
 }
 

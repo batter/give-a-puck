@@ -1,8 +1,8 @@
 #events
-  %h3 Events
+  %h3 Events List
   %a{href: '/events/new'} New
   %p
-  %table
+  %table.list
     %thead
       %th Name
       %th Live?
@@ -12,7 +12,7 @@
         %tr[event]
           %td
             %a{href: "/events/#{event.id}"}= event.title
-          %td= event.is_live? ? 'Yes' : 'No'
+          %td.text-center= event.is_live? ? 'Yes' : 'No'
           %td
             - unless event.is_live?
               %a.make_live{href: "/events/#{event.id}/make_live", data: { method: 'post', confirm: 'Are you sure?' }} Make Live

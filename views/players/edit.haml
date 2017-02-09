@@ -8,3 +8,4 @@
     %input#player_email{type: 'text', name: 'player[email]', value: @player.email}
   .field.prepend-top
     %input{name: 'commit', type: 'submit', value: 'Update Player'}
+    %a.cancel-link{href: "/events/#{@event.id}"} Cancel
