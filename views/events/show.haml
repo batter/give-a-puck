@@ -3,8 +3,8 @@
 #event
   .links.prepend-top
     %a{href: "/events/#{@event.id}/live_games"} Live Games
-  .players.prepend-top
     %a{href: "/events/#{@event.id}/players/new"} New Player
+  .players.prepend-top
     .append-bottom
     - if players.any?
       %table.list
