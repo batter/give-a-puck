@@ -9,7 +9,6 @@ class App < Roda
 
   plugin :hooks
   plugin :render, engine: 'haml'
-  plugin :json
   plugin :flash
   plugin :indifferent_params
   plugin :all_verbs
@@ -44,7 +43,7 @@ class App < Roda
     # GET /
     r.root do
       if @event = Event.where(is_live: true).first
-        # @page_refresh = 10 # number of seconds
+        @page_refresh = 10 # number of seconds
         @players = @event.players.sort_by(&:win_pct).reverse
         view '/events/show'
       else
@@ -53,6 +52,7 @@ class App < Roda
       end
     end
 
+    # /events
     r.on 'events' do
       r.is do
         r.get do
@@ -72,34 +72,39 @@ class App < Roda
         end
       end
 
+      # GET /events/new
       r.get 'new' do
         view 'events/new'
       end
 
+      # /events/:id
       r.on ':id' do |event_id|
         @event = Event.find(event_id)
 
         r.is do
           r.get do
-            # @page_refresh = 10 # number of seconds
+            @page_refresh = 10 # number of seconds
             @players = @event.players.sort_by(&:win_pct).reverse
             view 'events/show'
           end
         end
 
+        # /events/:id/make_live
         r.post 'make_live' do
           @event.make_live!
           r.redirect "/events/#{@event.id}"
         end
 
+        # /events/:id/live_games
         r.get 'live_games' do
-          # @page_refresh = 10 # number of seconds
+          @page_refresh = 10 # number of seconds
           @event.assign_next_on_deck! unless @event.on_deck_player_ids.present?
           @proposed_game = @event.games.new(players: Player.find(@event.on_deck_player_ids))
           @current_games = Game.unscored.order_by(created_at: :asc)
           view 'events/live_games'
         end
 
+        # /events/:id/generate_match_without/:player_id
         # used for kicking a player out of the next proposed game (since player is not available)
         r.post 'generate_match_without/:player_id' do |player_id|
           @event.assign_next_on_deck!(player_id)
@@ -107,12 +112,14 @@ class App < Roda
           r.redirect "/events/#{@event.id}/live_games"
         end
 
+        # /events/:id/create_next_game
         # creates the proposed match on the event into a legitimate game, generates next match
         r.post 'create_next_game' do
           @event.create_next_game!
           r.redirect "/events/#{@event.id}/live_games"
         end
 
+        # /events/:id/games
         r.on 'games' do
           r.on ':id' do |game_id|
             @game = @event.games.find(game_id)
@@ -142,6 +149,7 @@ class App < Roda
           end
         end
 
+        # /events/:id/players
         r.on 'players' do
           r.is do
             r.post do
@@ -156,10 +164,12 @@ class App < Roda
             end
           end
 
+          # /events/:id/players/new
           r.get 'new' do
             view 'players/new'
           end
 
+          # /events/:id/players/:id
           r.on ':id' do |player_id|
             @player = @event.players.find(player_id)
 
@@ -179,8 +189,9 @@ class App < Roda
               end
             end
 
+            # /events/:id/players/:id/toggle_active_state
             r.post 'toggle_active_state' do
-              @player.update_attribute(:active, !@player.active)
+              @player.update_attribute(:active, !@player.active?)
               r.redirect "/events/#{@event.id}"
             end
           end
