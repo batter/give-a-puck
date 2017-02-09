@@ -14,6 +14,7 @@ class App < Roda
   plugin :indifferent_params
   plugin :all_verbs
   plugin :partials
+  plugin :public
   plugin :assets, css: 'application.css', js: ['application.js', 'jquery_ujs.js'],
     js_compressor: :uglifier
 
@@ -37,6 +38,7 @@ class App < Roda
   end
 
   route do |r|
+    r.public
     r.assets unless env.production?
 
     # GET /
