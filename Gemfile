@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.4.0'
 
 gem 'roda', '~> 2.21'
 gem 'rack-indifferent', '~> 1.2', require: 'rack/indifferent'
