@@ -1,0 +1,28 @@
+- game ||= @game
+- class_name ||= game.end_time ? (game.in_progress? ? 'started' : 'finished') : 'unstarted'
+- player1 ||= game.players.first
+- player2 ||= game.players.last
+
+.game.append-bottom[game]{ class: class_name }
+  .players
+    .player.left.text-center= player1.name
+    .vs.left vs
+    .player.right.text-center= player2.name
+    .clear
+  - if game.finished?
+    .form_wrapper
+      %form{action: "/events/#{game.event_id}/games/#{game.id}", method: 'post', 'accept-charset' => 'UTF-8'}
+        %input{type: 'hidden', name: 'scoreboard_submit', value: 1}
+        .player1_score.score.left.text-center
+          %input{type: 'hidden', name: 'game[player_1_id]', value: player1.id}
+          %input{type: 'number', name: 'game[player_1_score]', placeholder: 'Score'}
+        .player2_score.score.right.text-center
+          %input{type: 'hidden', name: 'game[player_2_id]', value: player2.id}
+          %input{type: 'number', name: 'game[player_2_score]', placeholder: 'Score'}
+        .clear
+        .submit_wrapper.text-center.prepend-top
+          %input{name: 'commit', type: 'submit', value: 'Submit Results'}
+  - else
+    .time-remaining.text-center
+      Time Remaining:
+      = game.humanize_time_remaining

@@ -1,9 +1,8 @@
 - players ||= @players || @event.players
 
 #event
-  %h3= @event.title
   .links.prepend-top
-    %a{href: '#'} Scoreboard
+    %a{href: "/events/#{@event.id}/live_games"} Live Games
   .players.prepend-top
     %a{href: "/events/#{@event.id}/players/new"} New Player
     .append-bottom
@@ -17,7 +16,7 @@
           %th
           %th
         %tbody
-          - @event.players.each do |player|
+          - @players.each do |player|
             %tr
               %td= player.name
               %td.text-center= player.games_won_count

@@ -13,6 +13,7 @@ class App < Roda
   plugin :flash
   plugin :indifferent_params
   plugin :all_verbs
+  plugin :partials
   plugin :assets, css: 'application.css', js: ['application.js', 'jquery_ujs.js'],
     js_compressor: :uglifier
 
@@ -39,6 +40,7 @@ class App < Roda
     # GET /
     r.root do
       if @event = Event.where(is_live: true).first
+        @players = @event.players.sort_by(&:win_pct).reverse
         view '/events/show'
       else
         flash[:notice] = 'There is not currently a live event'
@@ -74,7 +76,7 @@ class App < Roda
 
         r.is do
           r.get do
-            @players = @event.players.sort_by { |p| p.win_pct }
+            @players = @event.players.sort_by(&:win_pct).reverse
             view 'events/show'
           end
         end
@@ -82,6 +84,54 @@ class App < Roda
         r.post 'make_live' do
           @event.make_live!
           r.redirect "/events/#{@event.id}"
+        end
+
+        r.get 'live_games' do
+          @proposed_game = @event.games.new(players: Player.find(@event.on_deck_player_ids))
+          @current_games = Game.unscored.order_by(created_at: :asc)
+          view 'events/live_games'
+        end
+
+        # used for kicking a player out of the next proposed game (since player is not available)
+        r.post 'generate_match_without/:player_id' do |player_id|
+          @event.assign_next_on_deck!(player_id)
+          flash['success'] = 'Player kicked from game; new match proposed'
+          r.redirect "/events/#{@event.id}/live_games"
+        end
+
+        # creates the proposed match on the event into a legitimate game, generates next match
+        r.post 'create_next_game' do
+          @event.create_next_game!
+          r.redirect "/events/#{@event.id}/live_games"
+        end
+
+        r.on 'games' do
+          r.on ':id' do |game_id|
+            @game = @event.games.find(game_id)
+
+            r.is do
+              r.post do
+                if params[:scoreboard_submit]
+                  if params[:game][:player_1_score].present? && params[:game][:player_2_score].present?
+                    score1 = params[:game][:player_1_score].to_i
+                    score2 = params[:game][:player_2_score].to_i
+                    winner_id = score1 > score2 ? params[:game][:player_1_id] : params[:game][:player_2_id]
+                    @game.update_attributes!(
+                      win_score: [score1, score2].max, lose_score: [score1, score2].min, winner_id: winner_id
+                    )
+                    flash[:success] = 'Game score entered successfully'
+                    r.redirect "/events/#{@event.id}/live_games"
+                  else
+                    flash[:error] = 'Please enter a score for both players'
+                    r.redirect "/events/#{@event.id}/live_games"
+                  end
+                else
+                  flash[:error] = 'Games must be updated from the live games page'
+                  r.redirect "/events/#{@event.id}"
+                end
+              end
+            end
+          end
         end
 
         r.on 'players' do
@@ -96,6 +146,10 @@ class App < Roda
                 view 'players/edit'
               end
             end
+          end
+
+          r.get 'new' do
+            view 'players/new'
           end
 
           r.on ':id' do |player_id|
@@ -116,10 +170,6 @@ class App < Roda
                 end
               end
             end
-          end
-
-          r.get 'new' do
-            view 'players/new'
           end
         end
       end

@@ -20,11 +20,89 @@ body {
       width: 200px;
     }
   }
+
+  a { color: #3366CC; }
 }
+
+// -- start scoreboard styling --
+.game {
+  border: 1px solid black;
+  padding: 10px;
+
+  .title {
+    font-size: 1.3em;
+    font-weight: bold;
+    border-bottom: 1px dotted black;
+    margin-bottom: 10px;
+  }
+
+  &.proposed {
+    background-color: #FFE0EF;
+
+    .kick-link {
+      margin-top: 6px;
+      font-size: 16px;
+    }
+  }
+//  &.unstarted { background-color: yellow; }
+  &.started { background-color: #B4E69B; }
+  &.finished {
+    animation-duration: 1s;
+    animation-name: blink;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    background-color: red;
+
+    @keyframes blink {
+       from {
+          background-color: red;
+       }
+       to {
+          background-color: white;
+       }
+     }
+  }
+
+  .player {
+    width: 49%;
+    font-size: 24px;
+  }
+  .vs {
+    padding-top: 10px;
+  }
+
+  .time-remaining {
+    margin-top: 10px;
+    font-size: 16px;
+  }
+  .form_wrapper {
+    .score {
+      width: 50%;
+
+      input[type=number] {
+        width: 70%;
+        font-size: 14px;
+      }
+    }
+    .submit_wrapper {
+      input[type=submit] {
+        font-size: 16px;
+        padding: 10px;
+        background-color: yellow;
+        border-radius: 20px;
+      }
+    }
+  }
+}
+// -- end scoreboard styling --
 
 .text-center { text-align: center; }
 .text-left   { text-align: left;   }
 .text-right  { text-align: right;  }
+
+.left  { float: left; }
+.right { float: right; }
+.clear { clear: both; }
 
 /* Nice to have for putting space above or below objects */
 .prepend-top-sm   { margin-top: 0.75em; }

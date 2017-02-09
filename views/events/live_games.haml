@@ -1,0 +1,26 @@
+#live_games
+  .links.prepend-top
+    %a{href: "/events/#{@event.id}"} Return to Scoreboard
+
+  .next_game_wrapper
+    .game.proposed.prepend-top.append-bottom
+      .title.text-center Next Up
+      .players
+        .player.left.text-center
+          - player = @proposed_game.players.first
+          .name= player.name
+          .kick-link
+            %a{href: "/events/#{@event.id}/generate_match_without/#{player.id}", data: { method: :post, confirm: 'Are you sure?' }} Replace Player
+        .vs.left.text-center vs
+        .player.right.text-center
+          - player = @proposed_game.players.last
+          .name= player.name
+          .kick-link
+            %a{href: "/events/#{@event.id}/generate_match_without/#{player.id}", data: { method: :post, confirm: 'Are you sure?' }} Replace Player
+        .clear
+        .create-game.text-center
+          %a{href: "/events/#{@event.id}/create_next_game", data: { method: :post }} Start Game!
+
+  .games.prepend-top
+    - @current_games.each do |game|
+      = partial 'events/game', locals: { game: game }

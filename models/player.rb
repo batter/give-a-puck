@@ -12,12 +12,20 @@ class Player
   validates_presence_of :event, :name
   validates_uniqueness_of :name, scope: :event
 
-  scope :by_least_games_played, -> { order_by([['games.count', :asc]]) }
+  def self.by_least_games_played
+    all.to_a.sort_by { |p| p.games.size }
+  end
 
   # return next players eligible to play based on players that have played least amount of games thus far
-  def self.next_up(number = 2)
-    players = by_least_games_played.group_by { |p| p.games.size }.values.first
-    players.to_a.sample(number)
+  def self.next_up(number = 2, except_player_id = nil)
+    players = by_least_games_played
+    players.reject! { |p| p.id.to_s == except_player_id } if except_player_id
+    return players if players.size <= number
+
+    groupings = players.group_by { |p| p.games.size }.values
+    pool = []
+    pool.push(*groupings.shift) until pool.size >= number
+    pool.sample(number)
   end
 
   def games_won_count
@@ -29,6 +37,6 @@ class Player
   end
 
   def win_pct
-    games.finished.size > 0 ? games_won_count / games.finished.size.to_f : 0
+    games.finished.size > 0 && games_won_count > 0 ? games_won_count / games.finished.size.to_f : 0
   end
 end
