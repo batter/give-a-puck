@@ -33,10 +33,14 @@ class Player
   end
 
   def games_lost_count
-    (games.finished.to_a - won_games).size
+    (games.finished.scored.to_a - won_games).size
   end
 
   def win_pct
     games.finished.size > 0 && games_won_count > 0 ? games_won_count / games.finished.size.to_f : 0
+  end
+
+  def win_pct_readable
+    ('%.3f' % self.win_pct)[1..-1]
   end
 end

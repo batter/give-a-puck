@@ -19,8 +19,9 @@ class Game
   # scope :finished,   -> { where(finished: true) }
 
   scope :finished,   -> { where(:end_time.lte => Time.now) }
-  scope :unscored,   -> { where(win_score: nil, lose_score: nil) }
   scope :unfinished, -> { where(:end_time.gte => Time.now) }
+  scope :unscored,   -> { where(win_score: nil, lose_score: nil) }
+  scope :scored,     -> { where(:win_score.ne => nil, :lose_score.ne => nil) }
 
   before_save { self.end_time = 5.minutes.from_now }
 

@@ -21,7 +21,7 @@
               %td= player.name
               %td.text-center= player.games_won_count
               %td.text-center= player.games_lost_count
-              %td.text-center= player.win_pct
+              %td.text-center= player.win_pct_readable
               %td
                 %a{href: "/events/#{@event.id}/players/#{player.id}"} Edit
               %td
