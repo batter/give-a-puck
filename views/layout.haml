@@ -9,8 +9,9 @@
     - if @page_refresh
       %meta{'http-equiv' => 'refresh', content: [@page_refresh.to_i, 1].max}
   %body
-    #title{title: 'Home'}
-      %a{href: '/'} Give A Puck!
+    %a#title_link{href: '/'}
+      #title
+        Give A Puck!
     #wrapper
       = partial 'layouts/flash'
       = yield
