@@ -29,6 +29,8 @@ class App < Roda
     self.class.env
   end
 
+  compile_assets if env.production?
+
   # before hook runs before every request execution
   before do
     response.headers['Cache-Control'] = 'no-cache' unless env.production?
