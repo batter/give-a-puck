@@ -45,6 +45,6 @@ class Player
   end
 
   def win_pct_readable
-    ('%.3f' % self.win_pct)[1..-1]
+    self.win_pct == 1 ? '1.000' : ('%.3f' % self.win_pct)[1..-1]
   end
 end
