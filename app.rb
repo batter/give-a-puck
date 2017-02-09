@@ -44,6 +44,7 @@ class App < Roda
     # GET /
     r.root do
       if @event = Event.where(is_live: true).first
+        @page_refresh = 10 # number of seconds
         @players = @event.players.sort_by(&:win_pct).reverse
         view '/events/show'
       else
@@ -80,6 +81,7 @@ class App < Roda
 
         r.is do
           r.get do
+            @page_refresh = 10 # number of seconds
             @players = @event.players.sort_by(&:win_pct).reverse
             view 'events/show'
           end
@@ -91,6 +93,7 @@ class App < Roda
         end
 
         r.get 'live_games' do
+          @page_refresh = 10 # number of seconds
           @event.assign_next_on_deck! unless @event.on_deck_player_ids.present?
           @proposed_game = @event.games.new(players: Player.find(@event.on_deck_player_ids))
           @current_games = Game.unscored.order_by(created_at: :asc)
