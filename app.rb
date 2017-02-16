@@ -121,6 +121,7 @@ class App < Roda
 
         # /events/:id/games
         r.on 'games' do
+          # /events/:id/games/:game_id
           r.on ':id' do |game_id|
             @game = @event.games.find(game_id)
 
@@ -147,6 +148,7 @@ class App < Roda
               end
             end
 
+            # /events/:id/games/:game_id/finalize_early
             r.post 'finalize_early' do
               @game.touch(:end_time)
               r.redirect "/events/#{@event.id}/live_games"
