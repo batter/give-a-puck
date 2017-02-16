@@ -29,7 +29,12 @@ class App < Roda
     self.class.env
   end
 
-  compile_assets if env.production?
+  if env.production?
+    compile_assets
+
+    require File.expand_path('../config/rollbar', __FILE__)
+    use Rollbar::Middleware::Rack
+  end
 
   # before hook runs before every request execution
   before do

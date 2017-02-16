@@ -24,6 +24,9 @@ GEM
     mongoid (6.0.0)
       activemodel (~> 5.0)
       mongo (~> 2.3)
+    multi_json (1.12.1)
+    oj (2.18.1)
+    oj_mimic_json (1.0.1)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -36,6 +39,8 @@ GEM
     rake (11.3.0)
     roda (2.21.0)
       rack
+    rollbar (2.14.0)
+      multi_json
     sass (3.4.22)
     shotgun (0.9.2)
       rack (>= 1.0)
@@ -57,10 +62,13 @@ PLATFORMS
 DEPENDENCIES
   haml (~> 4.0, >= 4.0.7)
   mongoid (~> 6.0)
+  oj (~> 2.18)
+  oj_mimic_json (~> 1.0.1)
   pry-nav (~> 0.2)
   rack-indifferent (~> 1.2)
   rake (> 10.0)
   roda (~> 2.21)
+  rollbar (~> 2.14)
   sass (~> 3.4, >= 3.4.22)
   shotgun (~> 0.9.2)
   thin (~> 1.7)
