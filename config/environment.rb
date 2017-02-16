@@ -9,8 +9,6 @@ end
 
 Bundler.require(:default, ENV['RACK_ENV'])
 
-require 'json'
-require 'mongoid'
 Mongoid.load!(File.expand_path('../mongoid.yml', __FILE__))
 
 require File.expand_path('../../app', __FILE__)
