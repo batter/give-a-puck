@@ -23,7 +23,7 @@ class Game
   scope :unscored,   -> { where(win_score: nil, lose_score: nil) }
   scope :scored,     -> { where(:win_score.ne => nil, :lose_score.ne => nil) }
 
-  before_save { self.end_time = 5.minutes.from_now }
+  before_create { self.end_time = 5.minutes.from_now }
 
   def set_winner!(player, win_score, lose_score)
     self.winner = player

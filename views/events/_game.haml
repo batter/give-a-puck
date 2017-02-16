@@ -26,3 +26,6 @@
     .time-remaining.text-center
       Time Remaining:
       = game.humanize_time_remaining
+    .finish-link.text-center
+      %a{href: "/events/#{game.event_id}/games/#{game.id}/finalize_early", data: { method: :post, confirm: 'You sure?' }}
+        Finish Early
