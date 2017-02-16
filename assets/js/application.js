@@ -1,12 +1,13 @@
 $(function() {
   // Remove flash notifications from dom after 2.5 seconds
-  if ($('#flash_notifications').length) {
+  var flash_notifs = $('#flash_notifications');
+  if (flash_notifs.length) {
     setTimeout(function() {
-      $('#flash_notifications').animate({
+      flash_notifs.animate({
         height: '0'
       }, 500, function() {
         $(this).remove();
-      })
+      });
     }, 2500);
   }
 });

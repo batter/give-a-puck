@@ -14,7 +14,9 @@
           %th.text-left Name
           %th W
           %th L
-          %th Win PCT
+          %th{title: 'Win Percentage'} Win PCT
+          %th{title: 'Point Differential: How many points the player has scored minus how many points have been scored against them'}
+            PT Diff
           %th
           %th
         %tbody
@@ -24,7 +26,9 @@
               %td= player.name
               %td.text-center= player.games_won_count
               %td.text-center= player.games_lost_count
-              %td.text-center= player.win_pct_readable
+              %td.text-center{title: 'Win Percentage'}= player.win_pct_readable
+              %td.text-center{title: 'Point Differential: How many points the player has scored minus how many points have been scored against them'}
+                = player.point_diff
               %td
                 %a{href: "/events/#{@event.id}/players/#{player.id}"} Edit
               %td.pad-2{class: player.active? ? 'bg-red' : 'bg-green'}

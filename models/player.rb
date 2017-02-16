@@ -32,12 +32,35 @@ class Player
     pool.sample(number)
   end
 
+  def point_differential
+    return 0 unless games.finished.scored.exists?
+    total_points_for.to_i - total_points_against.to_i
+  end
+  alias_method :point_diff, :point_differential
+
+  # Amongst games the player has completed
+  def total_points_against
+    return 0 unless games.finished.scored.exists?
+    self.lost_games.pluck(:lose_score).inject(:+)
+  end
+
+  # Amongst games the player has completed
+  def total_points_for
+    return 0 unless games.finished.scored.exists?
+    won_games.pluck(:win_score).inject(:+)
+  end
+
   def games_won_count
     won_games.size
   end
 
-  def games_lost_count
-    (games.finished.scored.to_a - won_games).size
+  def lost_games_count
+    lost_games && lost_games.size
+  end
+  alias_method :games_lost_count, :lost_games_count
+
+  def lost_games
+    (games.finished.scored.to_a - won_games)
   end
 
   def win_pct
