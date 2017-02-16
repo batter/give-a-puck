@@ -64,7 +64,7 @@ class Player
   end
 
   def win_pct
-    games.finished.size > 0 && games_won_count > 0 ? games_won_count / games.finished.size.to_f : 0
+    games.finished.size > 0 ? games_won_count / games.finished.size.to_f : 0
   end
 
   def win_pct_readable
