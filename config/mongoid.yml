@@ -21,7 +21,3 @@ production:
         # The timeout to wait to execute operations on a socket before raising an error.
         # (default: 5)
         socket_timeout: 10
-
-        # Set this to ensure that your writes are a round-trip operation
-        # and are confirmed by the system. Default (false).
-        safe: true
