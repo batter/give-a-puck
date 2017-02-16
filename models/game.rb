@@ -44,15 +44,9 @@ class Game
   end
 
   def humanize_time_remaining
-    seconds = (end_time - Time.now).to_i.abs
     unless finished?
-      [[60, :seconds], [60, :minutes], [24, :hours], [1000, :days]].map do |count, name|
-        if seconds > 0
-          seconds, n = seconds.divmod(count)
-          # "#{n.to_i} #{name}"
-          n
-        end
-      end.compact.reverse.join(':')
+      seconds = (end_time - Time.now).to_i.abs
+      "%02d:%02d" % [seconds/60%60, seconds%60]
     end
   end
 
