@@ -38,7 +38,7 @@ class App < Roda
 
   # before hook runs before every request execution
   before do
-    response.headers['Cache-Control'] = 'no-cache' unless env.production?
+    response.headers['Cache-Control'] = 'no-cache' if !env.production? || params[:force_refresh].present?
   end
 
   route do |r|
@@ -53,7 +53,7 @@ class App < Roda
     r.root do
       if @event = Event.where(is_live: true).first
         @page_refresh = 10 # number of seconds
-        @players = @event.players.sort_by(&:win_pct).reverse
+        @players = @event.players.sort_by { |p| [p.win_pct, p.games_won_count] }.reverse
         view '/events/show'
       else
         flash[:notice] = 'There is not currently a live event'
