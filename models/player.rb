@@ -21,7 +21,7 @@ class Player
   end
 
   # return next players eligible to play based on players that have played least amount of games thus far
-  def self.next_up(number = 2, except_player_id = nil)
+  def self.next_up(number = 2, except_player_id = nil, include_player_id = nil)
     players = active.by_least_games_played
     players.reject! { |p| p.id.to_s == except_player_id } if except_player_id
     # Don't toss a player into the pool of if they are already playing
@@ -31,7 +31,11 @@ class Player
     groupings = players.group_by { |p| p.games.size }.values
     pool = []
     pool.push(*groupings.shift) until pool.size >= number
-    pool.sample(number)
+    if include_player_id
+      [Player.find(include_player_id), pool.sample]
+    else
+      pool.sample(number)
+    end
   end
 
   def point_differential

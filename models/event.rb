@@ -23,12 +23,12 @@ class Event
     game
   end
 
-  def assign_next_on_deck!(except_player_id = nil)
-    update!(on_deck_player_ids: next_matching_players(except_player_id).pluck(:id))
+  def assign_next_on_deck!(except_player_id = nil, include_player_id = nil)
+    update!(on_deck_player_ids: next_matching_players(except_player_id, include_player_id).pluck(:id))
   end
 
   # generate a match from the player pool
-  def next_matching_players(except_player_id = nil)
-    players(true).next_up(2, except_player_id)
+  def next_matching_players(except_player_id = nil, include_player_id = nil)
+    players(true).next_up(2, except_player_id, include_player_id)
   end
 end

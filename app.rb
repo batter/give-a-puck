@@ -45,6 +45,10 @@ class App < Roda
     r.public
     r.assets unless env.production?
 
+    r.get 'error_test' do
+      raise 'Foobar'
+    end
+
     # GET /
     r.root do
       if @event = Event.where(is_live: true).first
@@ -111,8 +115,8 @@ class App < Roda
 
         # /events/:id/generate_match_without/:player_id
         # used for kicking a player out of the next proposed game (since player is not available)
-        r.post 'generate_match_without/:player_id' do |player_id|
-          @event.assign_next_on_deck!(player_id)
+        r.post 'generate_match_without/:without_player_id/:include_player_id' do |without_player_id, include_player_id|
+          @event.assign_next_on_deck!(without_player_id, include_player_id)
           flash['success'] = 'Player kicked from game; new match proposed'
           r.redirect "/events/#{@event.id}/live_games"
         end

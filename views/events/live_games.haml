@@ -4,17 +4,17 @@
       .game.proposed.prepend-top.append-bottom
         .title.text-center Next Up
         .players
+          - player_one = @proposed_game.players.first
+          - player_two = @proposed_game.players.last
           .player.left.text-center
-            - player = @proposed_game.players.first
-            .name= player.name
+            .name= player_one.name
             .kick-link
-              %a{href: "/events/#{@event.id}/generate_match_without/#{player.id}", data: { method: :post, confirm: 'Are you sure?' }} Replace Player
+              %a{href: "/events/#{@event.id}/generate_match_without/#{player_one.id}/#{player_two.id}", data: { method: :post, confirm: 'Are you sure?' }} Replace Player
           .vs.left.text-center vs
           .player.right.text-center
-            - player = @proposed_game.players.last
-            .name= player.name
+            .name= player_two.name
             .kick-link
-              %a{href: "/events/#{@event.id}/generate_match_without/#{player.id}", data: { method: :post, confirm: 'Are you sure?' }} Replace Player
+              %a{href: "/events/#{@event.id}/generate_match_without/#{player_two.id}/#{player_one.id}", data: { method: :post, confirm: 'Are you sure?' }} Replace Player
           .clear
           .create-game.text-center
             %a{href: "/events/#{@event.id}/create_next_game", data: { method: :post }} Start Game!
