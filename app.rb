@@ -53,7 +53,7 @@ class App < Roda
     r.root do
       if @event = Event.where(is_live: true).first
         @page_refresh = 10 # number of seconds
-        @players = @event.players.sort_by { |p| [p.win_pct, p.games_won_count] }.reverse
+        @players = @event.players.sort_by { |p| [p.win_pct, p.games_won_count, p.point_diff] }.reverse
         view '/events/show'
       else
         flash[:notice] = 'There is not currently a live event'
@@ -93,7 +93,7 @@ class App < Roda
         r.is do
           r.get do
             @page_refresh = 10 # number of seconds
-            @players = @event.players.sort_by { |p| [p.win_pct, p.games_won_count] }.reverse
+            @players = @event.players.sort_by { |p| [p.win_pct, p.games_won_count, p.point_diff] }.reverse
             view 'events/show'
           end
         end
