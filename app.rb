@@ -93,7 +93,7 @@ class App < Roda
         r.is do
           r.get do
             @page_refresh = 10 # number of seconds
-            @players = @event.players.sort_by(&:win_pct).reverse
+            @players = @event.players.sort_by { |p| [p.win_pct, p.games_won_count] }.reverse
             view 'events/show'
           end
         end
