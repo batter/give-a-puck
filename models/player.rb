@@ -50,13 +50,13 @@ class Player
   # Amongst games the player has completed
   def total_points_against
     return 0 unless games.finished.scored.exists?
-    self.lost_games.pluck(:lose_score).inject(:+)
+    won_games.pluck(:lose_score).map(&:to_i).inject(:+).to_i + self.lost_games.pluck(:win_score).inject(:+).to_i
   end
 
   # Amongst games the player has completed
   def total_points_for
     return 0 unless games.finished.scored.exists?
-    won_games.pluck(:win_score).inject(:+)
+    won_games.pluck(:win_score).inject(:+).to_i + self.lost_games.pluck(:lose_score).inject(:+).to_i
   end
 
   def games_won_count
