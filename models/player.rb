@@ -31,6 +31,7 @@ class Player
     groupings = players.group_by { |p| p.games.size }.values
     pool = []
     pool.push(*groupings.shift) until pool.size >= number
+    pool.push(*groupings.shift) if groupings.any?
     if include_player_id
       [Player.find(include_player_id), pool.sample]
     else
