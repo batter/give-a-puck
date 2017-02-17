@@ -31,9 +31,8 @@ class Player
     groupings = players.group_by { |p| p.games.size }.values
     pool = []
     pool.push(*groupings.shift) until pool.size >= number
-    if Random.rand(2) == 1 && groupings.any?
-      pool.push(*groupings.shift)
-    end
+    # Add additional element of randomness
+    pool.push(*groupings.shift) if Random.rand(3).odd? && groupings.any?
     if include_player_id
       [Player.find(include_player_id), pool.reject {|p| p.id.to_s == include_player_id}.sample]
     else
