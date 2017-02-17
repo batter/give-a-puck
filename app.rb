@@ -175,7 +175,7 @@ class App < Roda
                 r.redirect "/events/#{@event.id}"
               else
                 flash.now['error'] = @player.errors.full_messages.join(', ')
-                view 'players/edit'
+                view 'players/new'
               end
             end
           end
