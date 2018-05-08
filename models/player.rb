@@ -15,28 +15,47 @@ class Player
 
   scope :active,   -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
+  scope :fifteen_mins_old, -> { where(created_at: { :$lt => (-> { 15.minutes.ago }).call }) }
 
   def self.by_least_games_played
     all.to_a.sort_by { |p| p.games.size }
   end
 
   # return next players eligible to play based on players that have played least amount of games thus far
-  def self.next_up(number = 2, except_player_id = nil, include_player_id = nil)
-    players = active.by_least_games_played
-    players.reject! { |p| p.id.to_s == except_player_id } if except_player_id
+  def self.next_up(size = 2, except_player_id = nil, include_player_id = nil)
+    players = active.fifteen_mins_old.by_least_games_played
+    players.reject! { |p| p.id.to_s == except_player_id.to_s } if except_player_id
     # Don't toss a player into the pool of if they are already playing
     players.reject! { |p| p.games.unfinished.any? }
-    return players if players.size <= number
+    # if the player pool is the size of the passed `size` in a game or less, return the whole pool
+    return players if players.size <= size
+    # if an included player id is passed, 
+    player_to_include = players.delete(players.detect { |p| p.id.to_s == include_player_id.to_s }) if include_player_id
 
-    groupings = players.group_by { |p| p.games.size }.values
-    pool = []
-    pool.push(*groupings.shift) until pool.size >= number
-    # Add additional element of randomness
-    pool.push(*groupings.shift) if Random.rand(3).odd? && groupings.any?
-    if include_player_id
-      [Player.find(include_player_id), pool.reject {|p| p.id.to_s == include_player_id}.sample]
-    else
-      pool.sample(number)
+    # otherwise generate a new match from the player pool
+    generate_player_match(players, size, player_to_include)
+  end
+
+  # returns an array of players from the player pool collection
+  def self.generate_player_match(player_pool, size, player_to_include)
+    # 66% chance that it just selects a random player
+    pool =
+      if Random.rand(3).even?
+        player_pool.sample(size)
+      else
+        generate_weighted_pool(player_pool, size)
+      end
+
+    player_to_include ? [player_to_include, *pool.sample(size - 1)] : pool.sample(size)
+  end
+
+  # returns an array of players from the player pool, prioritizing players who have played the least number of games
+  def self.generate_weighted_pool(player_pool, size)
+    groupings = player_pool.group_by { |p| p.games.size }.values
+    [].tap do |pool|
+      pool.push(*groupings.shift) until pool.size >= size
+      # 33% random chance that it introduces some additional random players who have played a bit more
+      pool.push(*groupings.shift) if Random.rand(3).odd? && groupings.any?
     end
   end
 
@@ -55,7 +74,7 @@ class Player
   # Amongst games the player has completed
   def total_points_for
     return 0 unless games.finished.scored.exists?
-    won_games.pluck(:win_score).inject(:+).to_i + self.lost_games.pluck(:lose_score).inject(:+).to_i
+    won_games.pluck(:win_score).inject(:+).to_i + self.lost_games.map(&:lose_score).inject(:+).to_i
   end
 
   def games_won_count
@@ -63,7 +82,7 @@ class Player
   end
 
   def lost_games_count
-    lost_games && lost_games.size
+    lost_games.present? && lost_games.size
   end
   alias_method :games_lost_count, :lost_games_count
 
@@ -72,7 +91,7 @@ class Player
   end
 
   def win_pct
-    games.finished.size > 0 ? games_won_count / games.finished.size.to_f : 0
+    games.finished.exists? ? games_won_count / games.finished.size.to_f : 0
   end
 
   def win_pct_readable
