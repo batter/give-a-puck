@@ -18,6 +18,7 @@ class Event
   end
 
   def create_next_game!
+    self.assign_next_on_deck! if on_deck_player_ids.blank?
     game = games.create!(players: Player.find(on_deck_player_ids))
     self.assign_next_on_deck!
     game
