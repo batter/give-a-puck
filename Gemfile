@@ -5,8 +5,8 @@ ruby '~> 2.5.1'
 gem 'roda', '~> 2.28'
 gem 'rack-indifferent', '~> 1.2', require: 'rack/indifferent'
 
-gem 'haml', '~> 4.0', '>= 4.0.7' # Use HAML for html templating
-gem 'sass', '~> 3.4', '>= 3.4.22' # SASS for CSS yields
+gem 'haml', '~> 5.0', '>= 5.0.4' # Use HAML for html templating
+gem 'sass', '~> 3.5', '>= 3.5.6' # SASS for CSS yields
 gem 'uglifier', '~> 3.0' # JS compressor
 
 gem 'mongoid', '~> 6.4'
