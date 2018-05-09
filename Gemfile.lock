@@ -25,7 +25,7 @@ GEM
       activemodel (~> 5.0)
       mongo (~> 2.3)
     multi_json (1.12.1)
-    oj (2.18.1)
+    oj (3.6.0)
     oj_mimic_json (1.0.1)
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -62,7 +62,7 @@ PLATFORMS
 DEPENDENCIES
   haml (~> 4.0, >= 4.0.7)
   mongoid (~> 6.0)
-  oj (~> 2.18)
+  oj (~> 3.6)
   oj_mimic_json (~> 1.0.1)
   pry-nav (~> 0.2)
   rack-indifferent (~> 1.2)

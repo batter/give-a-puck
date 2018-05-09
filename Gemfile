@@ -11,7 +11,7 @@ gem 'uglifier', '~> 3.0' # JS compressor
 
 gem 'mongoid', '~> 6.0'
 
-gem 'oj', '~> 2.18'
+gem 'oj', '~> 3.6'
 gem 'oj_mimic_json', '~> 1.0.1'
 
 gem 'thin', '~> 1.7', require: false # Use Thin as the webserver
