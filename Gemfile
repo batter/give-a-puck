@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
-ruby '2.3.3'
+
+ruby '~> 2.5.1'
 
 gem 'roda', '~> 2.28'
 gem 'rack-indifferent', '~> 1.2', require: 'rack/indifferent'
@@ -17,7 +18,6 @@ gem 'thin', '~> 1.7', require: false # Use Thin as the webserver
 gem 'rake', '> 10.0'
 
 gem 'rollbar', '~> 2.14', group: :production
-
 
 group :development do
   gem 'shotgun', '~> 0.9.2', require: false
