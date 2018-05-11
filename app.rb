@@ -107,7 +107,7 @@ class App < Roda
         # /events/:id/live_games
         r.get 'live_games' do
           @page_refresh = 20 # number of seconds
-          @event.assign_next_on_deck! unless @event.on_deck_player_ids.present?
+          @event.assign_next_on_deck! unless @event.on_deck_player_ids&.many?
           @proposed_game = @event.games.new(players: Player.find(@event.on_deck_player_ids))
           @current_games = Game.unscored.order_by(created_at: :desc)
           view 'events/live_games'
