@@ -30,6 +30,6 @@ class Event
 
   # generate a match from the player pool
   def next_matching_players(except_player_id = nil, include_player_id = nil)
-    players(true).next_up(2, except_player_id, include_player_id)
+    players.next_up(2, except_player_id, include_player_id)
   end
 end
