@@ -9,7 +9,7 @@ gem 'haml', '~> 5.0', '>= 5.0.4' # Use HAML for html templating
 gem 'sass', '~> 3.5', '>= 3.5.6' # SASS for CSS yields
 gem 'uglifier', '~> 3.0' # JS compressor
 
-gem 'mongoid', '~> 6.4'
+gem 'mongoid', '~> 6.0'
 
 gem 'oj', '~> 3.6'
 gem 'oj_mimic_json', '~> 1.0.1'
