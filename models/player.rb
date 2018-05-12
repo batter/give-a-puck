@@ -74,7 +74,7 @@ class Player
   # Amongst games the player has completed
   def total_points_for
     return 0 unless games.finished.scored.exists?
-    won_games.pluck(:win_score).inject(:+).to_i + self.lost_games.map(&:lose_score).inject(:+).to_i
+    won_games.pluck(:win_score).inject(:+).to_i + self.lost_games.pluck(:lose_score).inject(:+).to_i
   end
 
   def games_won_count
@@ -87,11 +87,11 @@ class Player
   alias_method :games_lost_count, :lost_games_count
 
   def lost_games
-    (games.finished.scored.to_a - won_games)
+    (Array.wrap(games.finished.scored) - won_games)
   end
 
   def win_pct
-    games.finished.exists? ? games_won_count / games.finished.size.to_f : 0
+    games.finished.size > 0 ? games_won_count / games.finished.size.to_f : 0
   end
 
   def win_pct_readable
