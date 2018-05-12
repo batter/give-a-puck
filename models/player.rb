@@ -15,7 +15,7 @@ class Player
 
   scope :active,   -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
-  scope :fifteen_mins_old, -> { where(created_at: { :$lt => (-> { 15.minutes.ago }).call }) }
+  scope :ten_mins_old, -> { where(created_at: { :$lt => (-> { 10.minutes.ago }).call }) }
 
   def self.by_least_games_played
     all.to_a.sort_by { |p| p.games.size }
@@ -23,7 +23,7 @@ class Player
 
   # return next players eligible to play based on players that have played least amount of games thus far
   def self.next_up(size = 2, except_player_id = nil, include_player_id = nil)
-    players = active.fifteen_mins_old.by_least_games_played
+    players = active.ten_mins_old.by_least_games_played
     players.reject! { |p| p.id.to_s == except_player_id.to_s } if except_player_id
     # Don't toss a player into the pool of if they are already playing
     players.reject! { |p| p.games.unfinished.any? }
