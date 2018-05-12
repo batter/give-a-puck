@@ -82,7 +82,7 @@ class Player
   end
 
   def lost_games_count
-    lost_games.present? && lost_games.size
+    (lost_games.present? && lost_games.size) || 0
   end
   alias_method :games_lost_count, :lost_games_count
 
