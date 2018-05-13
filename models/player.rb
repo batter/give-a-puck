@@ -39,12 +39,13 @@ class Player
   # returns an array of players from the player pool collection
   def self.generate_player_match(player_pool, size, player_to_include)
     # 66% chance that it just selects a random player
-    pool =
-      if Random.rand(3).even?
-        player_pool.sample(size)
-      else
-        generate_weighted_pool(player_pool, size)
-      end
+    # pool =
+    #   if Random.rand(3).even?
+    #     player_pool.sample(size)
+    #   else
+    #     generate_weighted_pool(player_pool, size)
+    #   end
+    pool = generate_weighted_pool(player_pool, size)
 
     player_to_include ? [player_to_include, *pool.sample(size - 1)] : pool.sample(size)
   end
