@@ -56,7 +56,8 @@ class Player
     [].tap do |pool|
       pool.push(*groupings.shift) until pool.size >= size
       # 33% random chance that it introduces some additional random players who have played a bit more
-      pool.push(*groupings.shift) if Random.rand(3).odd? && groupings.any?
+      pool.push(*groupings.flatten.sample(size)) if Random.rand(3).odd?
+      # pool.push(*groupings.shift) if Random.rand(3).odd? && groupings.any?
     end
   end
 
