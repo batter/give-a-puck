@@ -45,6 +45,7 @@ class Player
     #   else
     #     generate_weighted_pool(player_pool, size)
     #   end
+    
     pool = generate_weighted_pool(player_pool, size)
 
     player_to_include ? [player_to_include, *pool.sample(size - 1)] : pool.sample(size)
@@ -55,9 +56,9 @@ class Player
     groupings = player_pool.group_by { |p| p.games.size }.values
     [].tap do |pool|
       pool.push(*groupings.shift) until pool.size >= size
-      # 33% random chance that it introduces some additional random players who have played a bit more
-      pool.push(*groupings.flatten.sample(size)) if Random.rand(3).odd?
+      # 33% random chance that it introduces some additional random players who may have played a bit more
       # pool.push(*groupings.shift) if Random.rand(3).odd? && groupings.any?
+      pool.push(*groupings.flatten.sample(size)) if Random.rand(3).odd?
     end
   end
 
