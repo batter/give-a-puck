@@ -11,3 +11,16 @@ $(function() {
     }, 2500);
   }
 });
+
+function pageScroll() {
+	window.scrollBy(0,35); // horizontal and vertical scroll increments
+	scrolldelay = setTimeout('pageScroll()',200); // scrolls every 100 milliseconds
+}
+
+var delay = (function() {
+  var timer = 0;
+  return function(callback, ms) {
+    clearTimeout (timer);
+    timer = setTimeout(callback, ms);
+  };
+})();

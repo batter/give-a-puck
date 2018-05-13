@@ -34,3 +34,12 @@
               %td.pad-2{class: player.active? ? 'bg-red' : 'bg-green'}
                 %a{href: "/events/#{@event.id}/players/#{player.id}/toggle_active_state", data: { method: :post }}
                   = player.active? ? "Suspend" : "Reactivate"
+
+:javascript
+  if ("#{params[:autoscroll]}" === 'true') {
+    history.scrollRestoration = 'manual';
+    delay(function() {
+      pageScroll();
+    }, 4000);
+  }
+ 
