@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '~> 2.5.1'
+ruby '~> 2.7'
 
 gem 'roda', '~> 2.28'
 gem 'rack-indifferent', '~> 1.2', require: 'rack/indifferent'
