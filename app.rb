@@ -12,6 +12,7 @@ class App < Roda
   plugin :flash
   plugin :indifferent_params
   plugin :all_verbs
+  plugin :symbol_matchers
   plugin :partials
   plugin :public
   plugin :assets, css: 'application.css', js: ['application.js', 'jquery_ujs.js'],
